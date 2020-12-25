@@ -3,7 +3,7 @@
 on:
   push:
   schedule:
-    - cron:  '10 4 * * 1'
+    - cron:  '45 16 * * *'
     # scheduled at 07:00 every Monday and Thursday
 
 jobs:
