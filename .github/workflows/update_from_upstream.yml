@@ -27,3 +27,34 @@ jobs:
 
     - name: Timestamp
       run: date
+      
+  Add_Comment_to_file:
+    runs-on: ubuntu-latest
+    name: Add comment about upsteam update
+    if: success()
+    needs: [sync_with_upstream]
+    
+    steps:
+      - name: Checkout master 2
+        uses: actions/checkout@v2
+        with:
+          ref: main_workflow
+        
+        # last_sha=$(git log --format="%H" -n 1)
+      - name: Run a bash script
+        run: |
+          last_sha=$(git ls-remote git://github.com/Dominik-97/latex-template.git refs/heads/main | cut -f 1)
+          current_date=$(date)
+          "${current_date}: ${last_sha}" >> history.txt
+      - name: switching from HTTPS to SSH
+        run: git remote set-url origin ${{ secrets.ssh }}
+      - name: check for changes
+        run: git status
+      - name: stage changed files
+        run: git add .
+      - name: commit changed files
+        run: git commit -m "Auto updating history.txt"
+      - name: fetch from main_workflow
+        run: git fetch origin main_workflow
+      - name: push code to main_workflow
+        run: git push origin HEAD:main_workflow
