@@ -44,8 +44,10 @@ jobs:
       - name: Run a bash script
         run: |
           last_sha=$(git ls-remote git://github.com/Dominik-97/latex-template.git refs/heads/main | cut -f 1)
+          echo $last_sha
           current_date=$(date)
-          "${current_date}: ${last_sha}" >> history.txt
+          echo $current_date
+          "${current_date}\_${last_sha}" >> history.txt
       - name: switching from HTTPS to SSH
         run: git remote set-url origin ${{ secrets.ssh }}
       - name: check for changes
