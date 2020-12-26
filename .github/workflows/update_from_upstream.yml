@@ -47,8 +47,7 @@ jobs:
           echo $last_sha
           current_date=$(date)
           echo $current_date
-          Hello >> ./history.txt
-          "${current_date}\_${last_sha}" >> ./history.txt
+          echo "${current_date}: ${last_sha}" >> ./history.txt
       - name: switching from HTTPS to SSH
         run: git remote set-url origin ${{ secrets.ssh }}
       - name: check for changes
