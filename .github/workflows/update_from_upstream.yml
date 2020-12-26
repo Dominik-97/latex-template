@@ -48,7 +48,11 @@ jobs:
           echo $File
           if grep -q "$last_sha" "$File"; then
             echo "Nothing new."
+            export status=N
+            echo "::set-env name=status::$status"
           else
+            export status=Y
+            echo "::set-env name=status::$status"
             echo "New commits found, appending details."
             echo $last_sha
             current_date=$(date)
@@ -60,9 +64,8 @@ jobs:
       - name: commit changed files
         run: |-
           last_sha=$(git ls-remote git://github.com/Dominik-97/latex-template.git refs/heads/main | cut -f 1)
-          File="./history.txt"
-          echo $File
-          if grep -q "$last_sha" "$File"; then
+          echo $status
+          if [ $status = "N" ]; then
             echo "Nothing new."
           else
             echo "New commits found, appending details."
