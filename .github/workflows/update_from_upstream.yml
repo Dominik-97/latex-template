@@ -42,21 +42,19 @@ jobs:
         
         # last_sha=$(git log --format="%H" -n 1)
       - name: Run a bash script
-        run: |
+        run: |-
           last_sha=$(git ls-remote git://github.com/Dominik-97/latex-template.git refs/heads/main | cut -f 1)
           echo $last_sha
           current_date=$(date)
           echo $current_date
           echo "${current_date}: ${last_sha}" >> ./history.txt
-      - name: switching from HTTPS to SSH
-        run: git remote set-url origin ${{ secrets.ssh }}
       - name: check for changes
         run: git status
-      - name: stage changed files
-        run: git add .
       - name: commit changed files
-        run: git commit -m "Auto updating history.txt"
-      - name: fetch from main_workflow
-        run: git fetch origin main_workflow
-      - name: push code to main_workflow
-        run: git push origin HEAD:main_workflow
+        run: |-
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          timestamp=$(date -u)
+          git commit -m "Append do souboru history.txt proběhl: ${timestamp}" || exit 0
+          git push
