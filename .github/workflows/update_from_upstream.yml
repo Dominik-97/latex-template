@@ -46,6 +46,9 @@ jobs:
           last_sha=$(git ls-remote git://github.com/Dominik-97/latex-template.git refs/heads/main | cut -f 1)
           File="./history.txt"
           echo $File
+          pwd
+          ls -la
+          cat ./history.txt
           if grep -q "$last_sha" "$File"; then
             echo $last_sha
             current_date=$(date)
