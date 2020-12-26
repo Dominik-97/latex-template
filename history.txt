@@ -1,2 +1,2 @@
-
+Seznam pullnutých commitů:
 Sat Dec 26 11:30:26 UTC 2020: 273eeefed4dedf86f23b0188b6536d69d9aa21df
