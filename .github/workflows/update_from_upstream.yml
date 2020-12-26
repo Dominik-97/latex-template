@@ -42,6 +42,8 @@ jobs:
         
         # last_sha=$(git log --format="%H" -n 1)
       - name: Run a bash script
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
         run: |-
           last_sha=$(git ls-remote git://github.com/Dominik-97/latex-template.git refs/heads/main | cut -f 1)
           File="./history.txt"
@@ -62,6 +64,8 @@ jobs:
       - name: check for changes
         run: git status
       - name: commit changed files
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
         run: |-
           last_sha=$(git ls-remote git://github.com/Dominik-97/latex-template.git refs/heads/main | cut -f 1)
           echo $status
