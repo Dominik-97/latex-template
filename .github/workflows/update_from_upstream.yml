@@ -44,17 +44,26 @@ jobs:
       - name: Run a bash script
         run: |-
           last_sha=$(git ls-remote git://github.com/Dominik-97/latex-template.git refs/heads/main | cut -f 1)
-          echo $last_sha
-          current_date=$(date)
-          echo $current_date
-          echo "${current_date}: ${last_sha}" >> ./history.txt
+          File="./history.txt"
+          echo $File
+          if grep -q "$last_sha" "$File"; then
+            echo $last_sha
+            current_date=$(date)
+            echo $current_date
+            echo "${current_date}: ${last_sha}" >> ./history.txt
+          fi
       - name: check for changes
         run: git status
       - name: commit changed files
         run: |-
-          git config user.name "Automated"
-          git config user.email "actions@users.noreply.github.com"
-          git add -A
-          timestamp=$(date -u)
-          git commit -m "Append do souboru history.txt proběhl: ${timestamp}" || exit 0
-          git push
+          last_sha=$(git ls-remote git://github.com/Dominik-97/latex-template.git refs/heads/main | cut -f 1)
+          File="./history.txt"
+          echo $File
+          if grep -q "$last_sha" "$File"; then
+            git config user.name "Automated"
+            git config user.email "actions@users.noreply.github.com"
+            git add -A
+            timestamp=$(date -u)
+            git commit -m "Append do souboru history.txt proběhl: ${timestamp}" || exit 0
+            git push
+          fi
